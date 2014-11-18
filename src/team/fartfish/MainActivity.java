@@ -1,15 +1,17 @@
 package team.fartfish;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
 	ImageView imgViewFish = null;
 	Context   currentContext = null;
@@ -22,6 +24,12 @@ public class MainActivity extends ActionBarActivity {
 		imgViewFish.setOnClickListener(new View.OnClickListener(){
 		    public void onClick(View v) {
 		    	Intent intent = new Intent(currentContext, GameActivity.class);
+		    	
+		    	Animation animSurprise2Movement = new TranslateAnimation(imgViewFish.getLeft(), imgViewFish.getLeft()+150, imgViewFish.getTop(), imgViewFish.getTop());
+		    	animSurprise2Movement.setDuration(1000);
+		    	animSurprise2Movement.setFillAfter(true);
+		    	animSurprise2Movement.setFillEnabled(true);
+		    	imgViewFish.startAnimation(animSurprise2Movement);
 		    	startActivity(intent); 
 		    	overridePendingTransition(R.anim.in_from_right, R.anim.out_to_right);
 		    }
