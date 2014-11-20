@@ -32,25 +32,12 @@ public class Bird {
 	public static float BIRD_HEIGHT = 40f;
 	
 	public static float MAX_SIZE = 5.0f;
-	public static float MIN_SIZE = 1.0f;
+	public static float MIN_SIZE = 0.5f;
 	public static float VARIATION_SIZE = 0.1f;
 	
-	protected static final float MAX_DROP_SPEED = 12.0f;
-	protected static final float GRAVITY = 0.04f;
-	protected static final float FLAP_POWER = 6f;
-
-	protected static final float BIRD_MAX_FLAP_ANGLE = -20;
-	protected static final float BIRD_MAX_DROP_ANGLE = 90;
-	protected static final float FLAP_ANGLE_DRAG = 4.0f;
-	protected static final float BIRD_FLAP_ANGLE_POWER = 15.0f;
-
 	private AnimatedSprite mSprite;	
 
-	protected float mAcceleration = GRAVITY;
-	protected float mVerticalSpeed;	
-	protected float mCurrentBirdAngle = BIRD_MAX_FLAP_ANGLE;
-
-	protected static float mCurrentSize = MIN_SIZE;
+	protected static float mCurrentSize = 2.5f;
 
 	//bird
 	private static BuildableBitmapTextureAtlas mBirdBitmapTextureAtlas;
@@ -89,16 +76,19 @@ public class Bird {
 		mSprite = new AnimatedSprite(mBirdXOffset, mBirdYOffset, BIRD_WIDTH, BIRD_HEIGHT, mBirdTextureRegion, mVertexBufferObjectManager);
 		mSprite.animate(25);
 		mSprite.setZIndex(2);
+		mSprite.setScale(mCurrentSize);
 		mScene.attachChild(mSprite);
 		
 	}
 	
 	public void restart(){
+		//First Reset bird size
+		mCurrentSize = MIN_SIZE;
+		mSprite.setScale(mCurrentSize);
+		
 		mSprite.animate(25);
 		mSprite.setY(mBirdYOffset);
 		mSprite.setX(mBirdXOffset);
-		mCurrentBirdAngle = 0;
-		mSprite.setRotation(mCurrentBirdAngle);
 	}
 
 	public float move(){

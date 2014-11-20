@@ -295,7 +295,6 @@ public class GameActivity extends SimpleBaseGameActivity {
 		mScene.detachChild(mSceneManager.mInstructionsSprite);
 		mScene.detachChild(mSceneManager.mCopyText);
 		updateScore();
-		//mSceneManager.mBird.flap();
 		startGrowTimer();
 	}
 
@@ -303,6 +302,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 		
 		GAME_STATE = STATE_DYING;
 		
+		mScene.unregisterUpdateHandler(mTimerGrow);
 		mResourceManager.mDieSound.play();
 		mScene.attachChild(mSceneManager.mYouSuckText);
 		mSceneManager.mBird.getSprite().stopAnimation();		
@@ -319,12 +319,10 @@ public class GameActivity extends SimpleBaseGameActivity {
 				mScene.detachChild(mSceneManager.mYouSuckText);
 				restartGame();
 				mScene.unregisterUpdateHandler(mTimer);
-				mScene.unregisterUpdateHandler(mTimerGrow);
 			}
 		});
 
 		mScene.registerUpdateHandler(mTimer);
-		mScene.unregisterUpdateHandler(mTimerGrow);
 	}
 
 	private void restartGame(){
