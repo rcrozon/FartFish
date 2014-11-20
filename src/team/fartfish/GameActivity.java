@@ -14,11 +14,13 @@ import org.andengine.entity.scene.background.ParallaxBackground;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
+import team.configuration.GeneralConfiguration;
 import team.entity.PipePair;
 import team.managers.ResourceManager;
 import team.managers.SceneManager;
 import team.managers.ScoreManager;
 import team.managers.ScreenSizeHelper;
+import android.os.Bundle;
 
 public class GameActivity extends SimpleBaseGameActivity {
 	

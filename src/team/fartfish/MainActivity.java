@@ -1,9 +1,13 @@
 package team.fartfish;
 
+import team.configuration.GeneralConfiguration;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,22 +18,36 @@ import android.widget.ImageView;
 public class MainActivity extends Activity {
 
 	ImageView imgViewFish = null;
-	Context   currentContext = null;
+	Context   oCurrentContext = null;
+	int		  iScreenWidth ;
+	int		  iScreenHeight ;
+	Bundle	  oGameActivityBundle = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		currentContext = this;
+		
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+		
+		iScreenWidth = displaymetrics.widthPixels;
+		iScreenHeight = displaymetrics.heightPixels;
+		
+		oCurrentContext = this;
 		imgViewFish = (ImageView)findViewById(R.id.imgViewFish);
 		imgViewFish.setOnClickListener(new View.OnClickListener(){
 		    public void onClick(View v) {
-		    	Intent intent = new Intent(currentContext, GameActivity.class);
+		    	Intent intent = new Intent(oCurrentContext, GameActivity.class);
 		    	
-		    	Animation animSurprise2Movement = new TranslateAnimation(imgViewFish.getLeft(), imgViewFish.getLeft()+150, imgViewFish.getTop(), imgViewFish.getTop());
+		    	Animation animSurprise2Movement = new TranslateAnimation(imgViewFish.getLeft(), imgViewFish.getLeft()-(iScreenWidth/2), iScreenHeight/2, iScreenHeight/2);
 		    	animSurprise2Movement.setDuration(1000);
 		    	animSurprise2Movement.setFillAfter(true);
 		    	animSurprise2Movement.setFillEnabled(true);
 		    	imgViewFish.startAnimation(animSurprise2Movement);
+
+		    	intent.putExtra(GeneralConfiguration.SCREEN_WIDTH, iScreenWidth);
+		    	intent.putExtra(GeneralConfiguration.SCREEN_HEIGHT, iScreenHeight);
 		    	startActivity(intent); 
 		    	overridePendingTransition(R.anim.in_from_right, R.anim.out_to_right);
 		    }
