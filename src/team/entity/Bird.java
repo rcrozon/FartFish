@@ -37,7 +37,7 @@ public class Bird {
 	
 	private AnimatedSprite mSprite;	
 
-	protected static float mCurrentSize = 2.5f;
+	protected static float mCurrentSize = MIN_SIZE;
 
 	//bird
 	private static BuildableBitmapTextureAtlas mBirdBitmapTextureAtlas;
@@ -114,7 +114,7 @@ public class Bird {
 	}
 			
 	
-	public void flap(){
+	public void shrink(){
 		if(mCurrentSize > MIN_SIZE){
 			mCurrentSize = mCurrentSize - VARIATION_SIZE;
 			mSprite.setScale(mCurrentSize);			

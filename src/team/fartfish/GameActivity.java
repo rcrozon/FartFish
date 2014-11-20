@@ -100,9 +100,8 @@ public class GameActivity extends SimpleBaseGameActivity {
 				}
 			}
 
-			private void die(){
-				float newY = mSceneManager.mBird.move(); // get the bird to update itself			
-				if(newY >= FLOOR_BOUND) dead();
+			private void die(){		
+				dead();
 			}
 
 			
@@ -239,7 +238,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 						break;
 
 					case STATE_PLAYING:
-						mSceneManager.mBird.flap();
+						mSceneManager.mBird.shrink();
 						break;
 
 					case STATE_DEAD:
@@ -331,18 +330,27 @@ public class GameActivity extends SimpleBaseGameActivity {
 		mSceneManager.mBird.restart();
 		mScore = 0;
 		updateScore();
-
+		clearObjects();
+		mScene.attachChild(mSceneManager.mGetReadyText);
+		mScene.attachChild(mSceneManager.mInstructionsSprite);
+		mScene.attachChild(mSceneManager.mCopyText);		
+	}
+	
+	private void clearObjects(){
+		
 		for (int i = 0; i<pipes.size(); i++){
 			PipePair pipe = pipes.get(i);
 			pipe.destroy();			
 		}		
 		pipes.clear();
-
-		mScene.attachChild(mSceneManager.mGetReadyText);
-		mScene.attachChild(mSceneManager.mInstructionsSprite);
-		mScene.attachChild(mSceneManager.mCopyText);		
+		
+		for (int i = 0; i<food.size(); i++){
+			Food f = food.get(i);
+			f.destroy();			
+		}		
+		food.clear();
 	}
-
+	
 	@Override
 	public final void onPause() {
 		super.onPause();
