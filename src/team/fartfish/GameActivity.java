@@ -1,4 +1,4 @@
-package team.fartfish;
+ package team.fartfish;
 
 import java.util.ArrayList;
 
@@ -14,21 +14,24 @@ import org.andengine.entity.scene.background.ParallaxBackground;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
-import team.configuration.GeneralConfiguration;
+import team.entity.Food;
 import team.entity.PipePair;
 import team.managers.ResourceManager;
 import team.managers.SceneManager;
 import team.managers.ScoreManager;
 import team.managers.ScreenSizeHelper;
-import android.os.Bundle;
+
 
 public class GameActivity extends SimpleBaseGameActivity {
-	
+
 	public static float CAMERA_WIDTH = 485; // this is not final because we dynamically set it at runtime based on the device aspect ratio
 	public static final float CAMERA_HEIGHT = 800;
 	private static final float SCROLL_SPEED = 4.5f;	// game speed
 	public static final float FLOOR_BOUND = 601; // 
+	
 	protected static final int PIPE_SPAWN_INTERVAL = 100; // distance between pipe obstacles
+	protected static final float GROW_INTERVAL = 0.3f; 
+	
 
 	// game states
 	protected static final int STATE_START = 0;
@@ -50,13 +53,13 @@ public class GameActivity extends SimpleBaseGameActivity {
 	// sprites
 	private ParallaxBackground mBackground;
 	private ArrayList<PipePair> pipes = new ArrayList<PipePair>();
+	private ArrayList<Food> food = new ArrayList<Food>();
 
 	// game variables
 	private int mScore = 0;
 	protected float mCurrentWorldPosition;
 	private float mBirdXOffset;
 	
-
 	@Override
 	public EngineOptions onCreateEngineOptions() {
 
@@ -117,13 +120,14 @@ public class GameActivity extends SimpleBaseGameActivity {
 
 				if(mPipeSpawnCounter > PIPE_SPAWN_INTERVAL){
 					mPipeSpawnCounter = 0;
-					spawnNewPipe();						
+					spawnNewPipe();	
+					//TODO : CRASH spawnNewFood();
 				}
 
 				// now render the pipes
 				for (int i = 0; i<pipes.size(); i++){
 					PipePair pipe = pipes.get(i);
-					if(pipe.isOnScreen()){
+					if(pipe.isOnScreen()){						
 						pipe.move(SCROLL_SPEED);
 						if(pipe.collidesWith(mSceneManager.mBird.getSprite())){
 							gameOver();
@@ -135,7 +139,23 @@ public class GameActivity extends SimpleBaseGameActivity {
 					}else{
 						pipe.destroy();
 						pipes.remove(pipe);							
-					}					
+					}		
+									
+				}
+				// Render Food
+				for (int i = 0; i<food.size(); i++){
+					Food f = food.get(i);
+					if(f.isOnScreen()){
+						f.move(SCROLL_SPEED);
+						if(f.collidesWith(mSceneManager.mBird.getSprite())){
+							//TODO : action
+						}
+
+					}else{
+						f.destroy();
+						pipes.remove(f);							
+					}		
+									
 				}	
 			}
 		};
@@ -154,8 +174,18 @@ public class GameActivity extends SimpleBaseGameActivity {
 		int Max = 400;
 		int spawn = Min + (int)(Math.random() * ((Max - Min) + 1));
 		PipePair newPipes = new PipePair(spawn, this.getVertexBufferObjectManager(), mScene);
-		pipes.add(newPipes);		
+		pipes.add(newPipes);
 	}
+	
+	protected void spawnNewFood() {
+		int Min = 350;
+		int Max = 400;
+		int spawn = Min + (int)(Math.random() * ((Max - Min) + 1));
+		Food newFood = new Food(spawn, this.getVertexBufferObjectManager(), mScene);
+		food.add(newFood);
+	}
+	
+	
 		
 	@Override
 	protected void onCreateResources() {
@@ -213,7 +243,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 						break;
 
 					case STATE_DEAD:
-						//restartGame();
+						restartGame();
 						break;	
 					}								
 				}
@@ -243,11 +273,10 @@ public class GameActivity extends SimpleBaseGameActivity {
 	
 	private void startGrowTimer(){
 		
-		mTimerGrow = new TimerHandler(0.8f, true, new ITimerCallback() {
+		mTimerGrow = new TimerHandler(GROW_INTERVAL, true, new ITimerCallback() {
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) {
 				mSceneManager.mBird.grow();
-				System.out.println("Tick");
 			}
 		});
 
@@ -321,4 +350,5 @@ public class GameActivity extends SimpleBaseGameActivity {
 		super.onPause();
 		mResourceManager.mMusic.pause();		
 	}
+
 }

@@ -12,6 +12,8 @@ import org.andengine.ui.activity.SimpleBaseGameActivity;
 import team.fartfish.GameActivity;
 
 
+
+
 public class PipePair {
 
 
@@ -50,10 +52,6 @@ public class PipePair {
 		lowerPipeSectionTextureAtlas.load();
 	}
 
-	private float mOpeningHeight;
-	private float mCurrentPosition;
-
-	private VertexBufferObjectManager mVertexBufferObjectManager;
 	private Scene mScene;
 
 	private Sprite mUpperPipe;
@@ -67,8 +65,6 @@ public class PipePair {
 	public PipePair(int mOpeningHeight,
 			VertexBufferObjectManager mVertexBufferObjectManager, Scene mScene) {
 		super();
-		this.mOpeningHeight = mOpeningHeight;
-		this.mVertexBufferObjectManager = mVertexBufferObjectManager;
 		this.mScene = mScene;
 
 		// upper pipe

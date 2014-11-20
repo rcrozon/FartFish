@@ -1,6 +1,7 @@
 package team.entity;
 
 import java.io.IOException;
+import java.util.Timer;
 
 import org.andengine.audio.sound.Sound;
 import org.andengine.audio.sound.SoundFactory;
@@ -19,7 +20,7 @@ import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
 import team.fartfish.GameActivity;
-import team.fartfish.MainActivity;
+
 
 
 public class Bird {
@@ -32,7 +33,7 @@ public class Bird {
 	
 	public static float MAX_SIZE = 5.0f;
 	public static float MIN_SIZE = 1.0f;
-	public static float VARIATION_SIZE = 0.5f;
+	public static float VARIATION_SIZE = 0.1f;
 	
 	protected static final float MAX_DROP_SPEED = 12.0f;
 	protected static final float GRAVITY = 0.04f;
